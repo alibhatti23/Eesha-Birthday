@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Eesha!</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="card">
+    <h1 class="glow">🎉 Happy Birthday meri pyari Eesha! 🎉</h1>
+    <p class="glow-soft">You're the brightest star in my universe ✨<br>
+    May your day be filled with joy, love, and endless smiles! 💖</p>
+
+    <button onclick="showLove()">Click for a surprise 💌</button>
+    <div id="surprise" class="hidden">
+      <p>🌹 I love you more than anything, more than words say. 🌹</p>
+    </div>
+
+    <button onclick="showMessage()">Read My Message 💖</button>
+    <div id="loveMessage" class="hidden">
+      <p class="glow-soft">
+        Dear Eesha,<br><br>
+        From the moment you walked into my life, everything changed. Your smile is my sunshine, your laugh is my favorite sound, and your love is the air I breathe. I’m endlessly grateful to share this journey with you. On your birthday, I want to remind you how deeply you're loved. I’m so proud of the person you are and lucky to call you mine. I have many thing to say, first of all, meri jan hm n himmat ni harni, kbi b hm n bs allah pak pr yakeen rkhna h mry kaky inshallah mri jan hm jld aik ho jayin gy. Allah pak meri jan ko hmysha khush rkhyin. Allah pak mry kaky ko sht slamti wali lmbi umr ata frmayin ameen suma ameen. Again happy birthday meri jan. <br><br>
+        Happy Birthday, my heartbeat. 🌸💫<br>
+        Yours forever,<br>
+        —Ali
+      </p>
+    </div>
+  </div>
+
+  <div class="hearts"></div>
+
+  <audio autoplay loop>
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    function showLove() {
+      const surprise = document.getElementById("surprise");
+      surprise.classList.toggle("hidden");
+    }
+
+    function showMessage() {
+      const msg = document.getElementById("loveMessage");
+      msg.classList.toggle("hidden");
+    }
+
+    // Confetti effect
+    const canvas = document.getElementById("confetti-canvas");
+    const context = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    const confetti = Array.from({ length: 100 }).map(() => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 6 + 4,
+      d: Math.random() * 10 + 10,
+      color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+      tilt: Math.random() * 10 - 5,
+      tiltAngle: 0,
+      tiltAngleIncrement: Math.random() * 0.1 + 0.05
+    }));
+
+    function drawConfetti() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach(c => {
+        context.beginPath();
+        context.lineWidth = c.r / 2;
+        context.strokeStyle = c.color;
+        context.moveTo(c.x + c.tilt + c.r / 4, c.y);
+        context.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 4);
+        context.stroke();
+      });
+      updateConfetti();
+      requestAnimationFrame(drawConfetti);
+    }
+
+    function updateConfetti() {
+      confetti.forEach(c => {
+        c.y += Math.cos(c.d) + 1 + c.r / 2;
+        c.tiltAngle += c.tiltAngleIncrement;
+        c.tilt = Math.sin(c.tiltAngle) * 15;
+        if (c.y > canvas.height) {
+          c.y = -10;
+          c.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    drawConfetti();
+  </script>
+</body>
+</html>
